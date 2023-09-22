@@ -3,29 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Artist</title>
+    <title>Edit Song</title>
   </head>
   <body>
-    <h1>Edit Artist</h1>
-    <form action="/">
+    <h1>Edit Song</h1>
+    <form action="/song">
       <table>
         <tr>
-          <td>Name</td>
+          <td>Title</td>
           <td><input type="text" /></td>
         </tr>
         <tr>
-          <td>Nationality</td>
+          <td>Artist(s)</td>
           <td><input type="text" /></td>
         </tr>
         <tr>
-          <td>Monthly Listeners</td>
+          <td>Length (in seconds)</td>
           <td><input type="number" /></td>
         </tr>
       </table>
       <input type="submit" value="Save" />
       <input
         type="button"
-        onclick="window.location.href = '/'"
+        onclick="window.location.href = '/song'"
         value="Cancel"
       />
     </form>
