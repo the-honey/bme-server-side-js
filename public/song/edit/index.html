@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Song</title>
+    <link href="/assets/style.css" rel="stylesheet" type="text/css" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Tailwindcss -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- DaisyUI -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+  <body>
+    <div>
+      <div class="py-6 px-4 lg:container mx-auto">
+        <header class="flex gap-4 items-center">
+          <h1 class="text-4xl font-bold">Edit Song</h1>
+        </header>
+
+        <div class="divider"></div>
+
+        <div class="max-w-md mx-auto">
+          <form class="flex flex-col gap-6" action="/artist/">
+            <div>
+              <div class="form-control">
+                <label class="label">Title</label>
+                <input type="text" class="input input-bordered" />
+                <div class="dropdown">
+                  <label tabindex="0" class="btn m-1">Click</label>
+                  <div
+                    class="dropdown-content shadow bg-base-200 rounded-md w-52 max-h-96 overflow-auto flex-col"
+                  >
+                    <ul tabindex="0" class="menu p-0 [&_li>*]:rounded-none">
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                      <li class="border-b border-b-base-content/10 w-full">
+                        <a>Item 1</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="form-control">
+                <label class="label">
+                  <span>Artist(s)</span>
+                </label>
+                <input type="text" class="input input-bordered" />
+                <label class="label">
+                  <div class="badge badge-lg badge-info gap-2">
+                    <button type="button">
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    Azahriah
+                  </div>
+                </label>
+              </div>
+              <div class="form-control">
+                <label class="label">Length (in seconds)</label>
+                <input type="number" class="input input-bordered" />
+              </div>
+            </div>
+
+            <div>
+              <button type="submit" class="btn btn-primary">Save</button>
+              <a class="btn" href="/artist/"> Cancel </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
