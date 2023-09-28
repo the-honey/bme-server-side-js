@@ -3,103 +3,117 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/style.css" />
     <title>Discography</title>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Tailwindcss -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- DaisyUI -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
   </head>
   <body>
-    <h1>
-      Discography
-      <a href="/song/edit">
-        <img src="/assets/plus-solid.svg" width="24px" height="24px" />
-      </a>
-    </h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Artist(s)</th>
-          <th>Length</th>
-          <th>Release Date</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>emulator</td>
-          <td>Azahriah</td>
-          <td>2:20</td>
-          <td>2021. 06. 29.</td>
-          <td>
-            <a href="/song/edit">
-              <img
-                src="/assets/pen-to-square-solid.svg"
-                width="24px"
-                height="24px"
-              />
-            </a>
-          </td>
-          <td>
-            <a
-              href="#"
-              onclick="confirm('Are you sure that you want to delete?')"
-            >
-              <img src="/assets/trash-solid.svg" width="24px" height="24px" />
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>Várnék</td>
-          <td>Azahriah, Dzsúdló</td>
-          <td>3:07</td>
-          <td>2022. 07. 07.</td>
-          <td>
-            <a href="/song/edit">
-              <img
-                src="/assets/pen-to-square-solid.svg"
-                width="24px"
-                height="24px"
-              />
-            </a>
-          </td>
-          <td>
-            <a
-              href="#"
-              onclick="confirm('Are you sure that you want to delete?')"
-            >
-              <img src="/assets/trash-solid.svg" width="24px" height="24px" />
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>Pullup</td>
-          <td>Azahriah, Desh</td>
-          <td>2:17</td>
-          <td>2022. 05. 20.</td>
-          <td>
-            <a href="/song/edit">
-              <img
-                src="/assets/pen-to-square-solid.svg"
-                width="24px"
-                height="24px"
-              />
-            </a>
-          </td>
-          <td>
-            <a
-              href="#"
-              onclick="confirm('Are you sure that you want to delete?')"
-            >
-              <img src="/assets/trash-solid.svg" width="24px" height="24px" />
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <input
-      type="button"
-      onclick="window.location.href = '/';"
-      value="Back to Artists"
-    />
+    <div class="py-6 px-4 lg:container mx-auto">
+      <header class="flex gap-4 items-center">
+        <h1 class="text-4xl font-bold">Discography</h1>
+        <a class="btn btn-sm btn-primary" href="/artist/edit">
+          <i class="fa-solid fa-plus"></i>
+        </a>
+      </header>
+
+      <div class="divider"></div>
+
+      <a class="btn btn-sm btn-info" href="/artist">Back to Artists</a>
+      <table class="table table-lg table-zebra">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Artist(s)</th>
+            <th>Length</th>
+            <th>Release Date</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hover">
+            <td>emulator</td>
+            <td>Azahriah</td>
+            <td>2:20</td>
+            <td>2021. 06. 29.</td>
+            <td>
+              <a class="fa-solid fa-pen-to-square text-lg" href="/song/edit">
+              </a>
+            </td>
+            <td>
+              <a
+                class="fa-trash fa-solid text-lg"
+                href="#"
+                onclick="delete_modal.showModal()"
+              >
+              </a>
+            </td>
+          </tr>
+          <tr class="hover">
+            <td>Várnék</td>
+            <td>Azahriah, Dzsúdló</td>
+            <td>3:07</td>
+            <td>2022. 07. 07.</td>
+            <td>
+              <a class="fa-solid fa-pen-to-square text-lg" href="/song/edit">
+              </a>
+            </td>
+            <td>
+              <a
+                class="fa-trash fa-solid text-lg"
+                href="#"
+                onclick="delete_modal.showModal()"
+              >
+              </a>
+            </td>
+          </tr>
+          <tr class="hover">
+            <td>Pullup</td>
+            <td>Azahriah, Desh</td>
+            <td>2:17</td>
+            <td>2022. 05. 20.</td>
+            <td>
+              <a class="fa-solid fa-pen-to-square text-lg" href="/song/edit">
+              </a>
+            </td>
+            <td>
+              <a
+                class="fa-trash fa-solid text-lg"
+                href="#"
+                onclick="delete_modal.showModal()"
+              >
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <dialog id="delete_modal" class="modal">
+      <div class="modal-box">
+        <h3 class="font-bold text-lg">Delete Song</h3>
+        <p class="py-4">Are you sure that you want to delete?</p>
+        <div class="modal-action">
+          <form class="flex gap-2" method="dialog">
+            <button class="btn btn-error">Delete</button>
+            <button class="btn">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
   </body>
 </html>
