@@ -15,6 +15,14 @@
     />
     <!-- Tailwindcss -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        corePlugins: {
+          // due to https://github.com/tailwindlabs/tailwindcss/issues/6602 - buttons disappear
+          preflight: false,
+        },
+      };
+    </script>
     <!-- DaisyUI -->
     <link
       href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css"
@@ -26,8 +34,9 @@
     <div class="py-6 px-4 lg:container mx-auto">
       <header class="flex gap-4 items-center">
         <h1 class="text-4xl font-bold">Artists</h1>
-        <a class="btn btn-sm btn-primary" href="/artist/edit">
+        <a class="btn btn-sm btn-primary" href="/artist/new">
           <i class="fa-solid fa-plus"></i>
+          New
         </a>
       </header>
 
@@ -46,60 +55,57 @@
           </thead>
           <tbody>
             <tr class="hover">
-              <td><a class="link" href="/song">Azahriah</a></td>
+              <td><a class="link" href="/song/1">Azahriah</a></td>
               <td>Hungarian</td>
               <td>710 869</td>
               <td>
                 <a
                   class="fa-solid fa-pen-to-square text-lg"
-                  href="/artist/edit"
+                  href="/artist/edit/1"
                 >
                 </a>
               </td>
               <td>
                 <a
-                  class="fa-trash fa-solid text-lg"
-                  href="#"
+                  class="fa-trash fa-solid text-lg cursor-pointer"
                   onclick="delete_modal.showModal()"
                 >
                 </a>
               </td>
             </tr>
             <tr class="hover">
-              <td><a class="link" href="/song">Rammstein</a></td>
+              <td><a class="link" href="/song/2">Rammstein</a></td>
               <td>German</td>
               <td>10 566 869</td>
               <td>
                 <a
                   class="fa-solid fa-pen-to-square text-lg"
-                  href="/artist/edit"
+                  href="/artist/edit/2"
                 >
                 </a>
               </td>
               <td>
                 <a
-                  class="fa-trash fa-solid text-lg"
-                  href="#"
+                  class="fa-trash fa-solid text-lg cursor-pointer"
                   onclick="delete_modal.showModal()"
                 >
                 </a>
               </td>
             </tr>
             <tr class="hover">
-              <td><a class="link" href="/song">Radiohead</a></td>
+              <td><a class="link" href="/song/3">Radiohead</a></td>
               <td>English</td>
               <td>24 128 674</td>
               <td>
                 <a
                   class="fa-solid fa-pen-to-square text-lg"
-                  href="/artist/edit"
+                  href="/artist/edit/3"
                 >
                 </a>
               </td>
               <td>
                 <a
-                  class="fa-trash fa-solid text-lg"
-                  href="#"
+                  class="fa-trash fa-solid text-lg cursor-pointer"
                   onclick="delete_modal.showModal()"
                 >
                 </a>
@@ -115,9 +121,14 @@
         <h3 class="font-bold text-lg">Delete Artist</h3>
         <p class="py-4">Are you sure that you want to delete?</p>
         <div class="modal-action">
-          <form class="flex gap-2" method="dialog">
-            <button class="btn btn-error">Delete</button>
-            <button class="btn">Cancel</button>
+          <form class="flex gap-2" action="/artist/delete/1" method="get">
+            <button type="submit" class="btn btn-error">Delete</button>
+            <button
+              class="btn"
+              onclick="event.preventDefault(); delete_modal.close()"
+            >
+              Cancel
+            </button>
           </form>
         </div>
       </div>

@@ -15,6 +15,14 @@
     />
     <!-- Tailwindcss -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        corePlugins: {
+          // due to https://github.com/tailwindlabs/tailwindcss/issues/6602 - buttons disappear
+          preflight: false,
+        },
+      };
+    </script>
     <!-- DaisyUI -->
     <link
       href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css"
@@ -26,8 +34,9 @@
     <div class="py-6 px-4 lg:container mx-auto">
       <header class="flex gap-4 items-center">
         <h1 class="text-4xl font-bold">Discography</h1>
-        <a class="btn btn-sm btn-primary" href="/artist/edit">
+        <a class="btn btn-sm btn-primary" href="/song/new">
           <i class="fa-solid fa-plus"></i>
+          New
         </a>
       </header>
 
@@ -52,13 +61,12 @@
             <td>2:20</td>
             <td>2021. 06. 29.</td>
             <td>
-              <a class="fa-solid fa-pen-to-square text-lg" href="/song/edit">
+              <a class="fa-solid fa-pen-to-square text-lg" href="/song/edit/1">
               </a>
             </td>
             <td>
               <a
-                class="fa-trash fa-solid text-lg"
-                href="#"
+                class="fa-trash fa-solid text-lg cursor-pointer"
                 onclick="delete_modal.showModal()"
               >
               </a>
@@ -70,13 +78,12 @@
             <td>3:07</td>
             <td>2022. 07. 07.</td>
             <td>
-              <a class="fa-solid fa-pen-to-square text-lg" href="/song/edit">
+              <a class="fa-solid fa-pen-to-square text-lg" href="/song/edit/2">
               </a>
             </td>
             <td>
               <a
-                class="fa-trash fa-solid text-lg"
-                href="#"
+                class="fa-trash fa-solid text-lg cursor-pointer"
                 onclick="delete_modal.showModal()"
               >
               </a>
@@ -88,13 +95,12 @@
             <td>2:17</td>
             <td>2022. 05. 20.</td>
             <td>
-              <a class="fa-solid fa-pen-to-square text-lg" href="/song/edit">
+              <a class="fa-solid fa-pen-to-square text-lg" href="/song/edit/3">
               </a>
             </td>
             <td>
               <a
-                class="fa-trash fa-solid text-lg"
-                href="#"
+                class="fa-trash fa-solid text-lg cursor-pointer"
                 onclick="delete_modal.showModal()"
               >
               </a>
@@ -109,9 +115,14 @@
         <h3 class="font-bold text-lg">Delete Song</h3>
         <p class="py-4">Are you sure that you want to delete?</p>
         <div class="modal-action">
-          <form class="flex gap-2" method="dialog">
-            <button class="btn btn-error">Delete</button>
-            <button class="btn">Cancel</button>
+          <form class="flex gap-2" action="/song/delete/1" method="get">
+            <button type="submit" class="btn btn-error">Delete</button>
+            <button
+              class="btn"
+              onclick="event.preventDefault(); delete_modal.close()"
+            >
+              Cancel
+            </button>
           </form>
         </div>
       </div>

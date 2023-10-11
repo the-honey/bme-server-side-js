@@ -15,6 +15,14 @@
     />
     <!-- Tailwindcss -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        corePlugins: {
+          // due to https://github.com/tailwindlabs/tailwindcss/issues/6602 - buttons disappear
+          preflight: false,
+        },
+      };
+    </script>
     <!-- DaisyUI -->
     <link
       href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css"
@@ -32,19 +40,31 @@
         <div class="divider"></div>
 
         <div class="max-w-md mx-auto">
-          <form class="flex flex-col gap-8" action="/artist/">
+          <form
+            class="flex flex-col gap-8"
+            action="/artist/edit/1"
+            method="post"
+          >
             <div>
               <div class="form-control">
                 <label class="label">Name</label>
-                <input type="text" class="input input-bordered" />
+                <input type="text" name="name" class="input input-bordered" />
               </div>
               <div class="form-control">
                 <label class="label">Nationality</label>
-                <input type="text" class="input input-bordered" />
+                <input
+                  type="text"
+                  name="nationality"
+                  class="input input-bordered"
+                />
               </div>
               <div class="form-control">
                 <label class="label">Monthly listeners</label>
-                <input type="number" class="input input-bordered" />
+                <input
+                  type="number"
+                  name="listeners"
+                  class="input input-bordered"
+                />
               </div>
             </div>
 
