@@ -1,5 +1,5 @@
 const editArtist = (req, res, next) => {
-  res.redirect('/artist/');
+  res.redirect('/artist');
 };
 
 export default editArtist;
