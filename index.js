@@ -1,6 +1,16 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
+import express from 'express';
+import {
+  deleteArtist,
+  deleteSong,
+  editArtist,
+  editSong,
+  getArtist,
+  getSong,
+  newArtist,
+  newSong,
+  renderHtml,
+} from './middlewares/index.js';
+
 const app = express();
 
 const PORT = 3000;
@@ -12,51 +22,24 @@ app.get('/', (_, res) => {
 });
 
 app.get('/artist/', renderHtml('public/artist/index.html'));
-app.use('/artist/new', renderHtml('public/artist/edit/index.html'));
+app.get('/artist/new', renderHtml('public/artist/edit/index.html'));
+app.post('/artist/new', newArtist);
 app.get('/artist/edit/:artist_id', renderHtml('public/artist/edit/index.html'));
-app.post(
-  '/artist/edit/:artist_id',
-  (req, res, next) => {
-    console.log(req.body);
-    if (Object.keys(req.body).length === 0) {
-      res.redirect('/artist/');
-      return;
-    }
-    return next();
-  },
-  renderHtml('public/artist/index.html')
-);
-app.get('/artist/delete/:artist_id', (req, res) => res.redirect('/artist/'));
+app.post('/artist/edit/:artist_id', editArtist);
+app.get('/artist/delete/:artist_id', deleteArtist);
 
-app.get('/song/:artist_id', renderHtml('public/song/index.html'));
-app.get('/song/:artist_id/new', renderHtml('public/song/edit/index.html'));
-app.post(
-  '/song/edit/:artist_id/:song_id',
-  (req, res, next) => {
-    if (typeof req.body !== 'undefined') {
-      console.log(req.body);
-      res.redirect(`/song/1`);
-      return;
-    }
-    return next();
-  },
-  renderHtml('public/song/edit/index.html')
-);
+app.get('/artist/songs/:artist_id', renderHtml('public/song/index.html'));
+app.get('/song/new/:artist_id', renderHtml('public/song/edit/index.html'));
+app.post('/song/new/:artist_id', newSong);
 app.get(
   '/song/edit/:artist_id/:song_id',
+  getArtist,
+  getSong,
   renderHtml('public/song/edit/index.html')
 );
-
-app.get('/song/delete/:artist_id/:song_id', (req, res) =>
-  res.redirect(`/song/1`)
-);
+app.post('/song/edit/:artist_id/:song_id', editSong);
+app.get('/song/delete/:artist_id/:song_id', deleteSong);
 
 app.listen(PORT, () =>
   console.log(`Server running on http://localhost:${PORT}/`)
 );
-
-const renderHtml = (filename) => {
-  (req, res, next) => {
-    res.sendFile(path.join(__dirname, filename));
-  };
-};

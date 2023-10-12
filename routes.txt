@@ -1,52 +1,13 @@
-// v1
+GET  /artist/                          - előadók
+GET  /artist/new/                      - új előadó oldal
+POST /artist/new/                      - új előadó mw
+GET  /artist/edit/:artist_id           - előadó szerkesztése
+POST /artist/edit/:artist_id           - előadó szerkesztése mw
+GET  /artist/delete/:artist_id         - előadó törlése
 
-GET  /artist/
-GET  /artist/new
-POST /artist/new
-GET  /artist/edit/:artist_id
-POST /artist/edit/:artist_id
-GET  /artist/delete/:artist_id
-
-GET  /song/:artist_id/
-GET  /song/:artist_id/new
-POST /song/:artist_id/new
-GET  /song/:artist_id/:song_id/edit/
-POST /song/:artist_id/:song_id/edit/
-GET  /song/:artist_id/:song_id/delete/
-
-
-// v2
-
-GET  /artist/
-GET  /artist/new
-POST /artist/new
-GET  /artist/edit/:artist_id
-POST /artist/edit/:artist_id
-GET  /artist/delete/:artist_id
-
-GET  /song/:artist_id/
-GET  /song/new/:artist_id
-POST /song/new/:artist_id
-GET  /song/edit/:song_id/
-POST /song/edit/:song_id/
-GET  /song/delete/:song_id/
-
-
-// v3
-GET /artist/ előadók
-GET /artist/:artist_id/ zenék
-GET /artist/:artist_id/edit előadó szerkesztése
-GET /song/:song_id/edit zene szerkesztése
-GET /song/:song_id/edit zene szerkesztése
-
-
-// v4
-GET  /artist/                  - előadók
-GET  /artist/:artist_id/songs  - előadó zenéi
-GET  /artist/:artist_id/edit   - előadó szerkesztése
-POST /artist                   - új előadó mw
-GET  /artist/new               - új előadó oldal
-
-GET  /song/:song_id/edit        - zene szerkesztése
-POST /song/                     - új zene mw
-GET  /song/new                  - új zene oldal
+GET  /artist/songs/:artist_id          - előadó zenéi
+GET  /song/new/:artist_id              - új zene oldal
+POST /song/new/:artist_id              - új zene mw
+GET  /song/edit/:artist_id/:song_id    - zene szerkesztése
+POST /song/edit/:artist_id/:song_id    - zene szerkesztése mw
+GET  /song/delete/:artist_id/:song_id  - zene törlése
