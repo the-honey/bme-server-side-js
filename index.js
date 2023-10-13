@@ -5,7 +5,9 @@ import {
   editArtist,
   editSong,
   getArtist,
+  getArtists,
   getSong,
+  getSongs,
   newArtist,
   newSong,
   renderHtml,
@@ -23,7 +25,7 @@ app.get('/', (_, res) => {
   res.redirect('/artist');
 });
 
-app.get('/artist', renderHtml('views/artist/artist.html'));
+app.get('/artist', getArtists, renderHtml('views/artist/artist.html'));
 app.get('/artist/new', renderHtml('views/artist/edit.html'));
 app.post('/artist/new', newArtist);
 app.get(
@@ -34,8 +36,8 @@ app.get(
 app.post('/artist/edit/:artist_id', editArtist);
 app.get('/artist/delete/:artist_id', deleteArtist);
 
-app.get('/artist/songs/:artist_id', renderHtml('views/song/song.html'));
-app.get('/song/new/:artist_id', renderHtml('views/song/edit.html'));
+app.get('/artist/songs/:artist_id', getSongs, renderHtml('views/song/song.html'));
+app.get('/song/new/:artist_id', getArtist, renderHtml('views/song/edit.html'));
 app.post('/song/new/:artist_id', newSong);
 app.get(
   '/song/edit/:artist_id/:song_id',
