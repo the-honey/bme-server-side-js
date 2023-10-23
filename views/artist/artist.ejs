@@ -1,0 +1,72 @@
+<%- include('../header', { title: 'Artists' }) %>
+<div class="py-6 px-4 lg:container mx-auto">
+  <header class="flex gap-4 items-center">
+    <h1 class="text-4xl font-bold">Artists</h1>
+    <a class="btn btn-sm btn-primary" href="/artist/new">
+      <i class="fa-solid fa-plus"></i>
+      Add
+    </a>
+  </header>
+
+  <div class="divider"></div>
+
+  <main>
+    <table class="table table-lg table-zebra">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Nationality</th>
+          <th>Monthly Listeners</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let artist of artists) { %>
+        <tr class="hover">
+          <td>
+            <a class="link" href="/artist/songs/<%= artist._id %>"
+              ><%= artist.name %></a
+            >
+          </td>
+          <td><%= artist.nationality %></td>
+          <td><%= artist.monthly_listeners.toLocaleString() %></td>
+          <td>
+            <a
+              class="fa-solid fa-pen-to-square text-lg"
+              href="/artist/edit/<%= artist._id %>"
+            >
+            </a>
+          </td>
+          <td>
+            <a
+              class="fa-trash fa-solid text-lg cursor-pointer"
+              href="/artist/delete/<%= artist._id %>"
+            >
+            </a>
+          </td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </main>
+</div>
+
+<dialog id="delete_modal" class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Delete Artist</h3>
+    <p class="py-4">Are you sure that you want to delete?</p>
+    <div class="modal-action">
+      <form class="flex gap-2" action="/artist/delete/1" method="get">
+        <button type="submit" class="btn btn-error">Delete</button>
+        <button
+          class="btn"
+          onclick="event.preventDefault(); delete_modal.close()"
+        >
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+</dialog>
+<%- include('../footer') %>

@@ -1,0 +1,148 @@
+<%- include('../header', { title: typeof song === 'undefined' ? 'Add Song' :
+'Edit Song' }) %>
+
+<script>
+  function addBadge(id, name) {
+    if (document.getElementById('badge-' + id)) return;
+
+    let elem = `<div id="badge-${id}" class="badge badge-lg badge-info gap-2">
+      <input
+        class="hidden"
+        type="text"
+        name="artist_ids"
+        value="${id}"
+      />
+      <button
+        type="button"
+        onclick="removeParent(this)"
+        >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      ${name}
+    </div>`;
+
+    const parent = document.getElementById('artist_badges');
+    parent.insertAdjacentHTML('beforeend', elem);
+  }
+
+  function removeParent(event) {
+    const elem = event.parentNode;
+    elem.remove();
+  }
+</script>
+
+<div>
+  <div class="py-6 px-4 lg:container mx-auto">
+    <header class="flex gap-4 items-center">
+      <h1 class="text-4xl font-bold">
+        <%= typeof song === 'undefined' ? 'Add' : 'Edit' %> Song
+      </h1>
+    </header>
+
+    <div class="divider"></div>
+
+    <div class="max-w-md mx-auto">
+      <form
+        class="flex flex-col gap-6"
+        action="<%= typeof song === 'undefined' ? `/song/new/${artist._id}` : `/song/edit/${artist._id}/${song._id}` %>"
+        method="post"
+      >
+        <div>
+          <div class="form-control">
+            <label class="label">Title</label>
+            <input
+              type="text"
+              class="input input-bordered"
+              name="title"
+              value="<%= typeof song === 'undefined' ? '' : song.title %>"
+            />
+          </div>
+          <div class="form-control">
+            <label class="label">
+              <span>Artist(s)</span>
+            </label>
+            <label id="artist_badges" class="label flex-wrap gap-1">
+              <% if (typeof song !== 'undefined') { for (let song_artist of
+              song.artists) { %>
+              <div
+                id="badge-<%= song_artist._id %>"
+                class="badge badge-lg badge-info gap-2"
+              >
+                <input
+                  class="hidden"
+                  type="text"
+                  name="artist_ids"
+                  value="<%= song_artist._id %>"
+                />
+                <button type="button" onclick="removeParent(this)">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+                <%= song_artist.name %>
+              </div>
+              <% }} else { %>
+              <div
+                id="badge-<%= artist._id %>"
+                class="badge badge-lg badge-info gap-2"
+              >
+                <input
+                  class="hidden"
+                  type="text"
+                  name="artist_ids"
+                  value="<%= artist._id %>"
+                />
+                <button type="button" onclick="removeParent(this)">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+                <%= artist.name %>
+              </div>
+              <% } %>
+            </label>
+            <!-- <input type="text" class="input input-bordered" /> -->
+            <div class="dropdown">
+              <label tabindex="0" class="btn m-1">Artists</label>
+              <div
+                class="dropdown-content shadow bg-base-200 rounded-md w-52 max-h-96 overflow-auto flex-col"
+              >
+                <ul tabindex="0" class="menu p-0 [&_li>*]:rounded-none">
+                  <% for (let artist of artists) { %>
+                  <li class="border-b border-b-base-content/10 w-full">
+                    <a
+                      onclick="addBadge(<%= artist._id %>, '<%= artist.name %>')"
+                      ><%= artist.name %></a
+                    >
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="form-control">
+            <label class="label">Length (in seconds)</label>
+            <input
+              type="number"
+              class="input input-bordered"
+              name="length"
+              value="<%= typeof song === 'undefined' ? '' : song.length %>"
+            />
+          </div>
+          <div class="form-control">
+            <label class="label">Release Date</label>
+            <input
+              type="date"
+              class="input input-bordered"
+              name="release_date"
+              value="<%= typeof song === 'undefined' ? '' : song.release_date %>"
+            />
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" class="btn btn-primary">Save</button>
+          <a class="btn" href="/artist/songs/<%= artist._id %>"> Cancel </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('../footer') %>

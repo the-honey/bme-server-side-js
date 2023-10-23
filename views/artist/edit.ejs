@@ -1,0 +1,57 @@
+<%- include('../header', { title: typeof artist === 'undefined' ? 'Add Artist' :
+'Edit Artist' }) %>
+<div>
+  <div class="py-6 px-4 lg:container mx-auto">
+    <header class="flex gap-4 items-center">
+      <h1 class="text-4xl font-bold">
+        <%= typeof artist === 'undefined' ? 'Add' : 'Edit' %> Artist
+      </h1>
+    </header>
+
+    <div class="divider"></div>
+
+    <div class="max-w-md mx-auto">
+      <form
+        class="flex flex-col gap-8"
+        action="/artist/<%= typeof artist === 'undefined' ? 'new' : `edit/${artist._id}`  %>"
+        method="post"
+      >
+        <div>
+          <div class="form-control">
+            <label class="label">Name</label>
+            <input
+              type="text"
+              name="name"
+              class="input input-bordered"
+              value="<%= typeof artist === 'undefined' ? '' : artist.name  %>"
+            />
+          </div>
+          <div class="form-control">
+            <label class="label">Nationality</label>
+            <input
+              type="text"
+              name="nationality"
+              class="input input-bordered"
+              value="<%= typeof artist === 'undefined' ? '' : artist.nationality  %>"
+            />
+          </div>
+          <div class="form-control">
+            <label class="label">Monthly listeners</label>
+            <input
+              type="number"
+              name="monthly_listeners"
+              class="input input-bordered"
+              value="<%= typeof artist === 'undefined' ? '' : artist.monthly_listeners  %>"
+            />
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" class="btn btn-primary">Save</button>
+          <a class="btn" href="/artist"> Cancel </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<%- include('../footer') %>

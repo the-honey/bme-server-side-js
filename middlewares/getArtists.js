@@ -1,5 +1,7 @@
 // get artists from db
-const getArtists = (req, res, next) => {
+const getArtists = (repo) => (req, res, next) => {
+  res.locals.artists = repo.artists;
+
   return next();
 };
 

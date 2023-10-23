@@ -1,0 +1,85 @@
+<%- include('../header', { title: 'Songs' }) %>
+<div class="py-6 px-4 lg:container mx-auto">
+  <header class="flex gap-4 items-center">
+    <h1 class="text-4xl font-bold"><%= artist.name %> Discography</h1>
+    <a class="btn btn-sm btn-primary" href="/song/new/<%= artist._id %>">
+      <i class="fa-solid fa-plus"></i>
+      Add
+    </a>
+  </header>
+
+  <div class="divider"></div>
+
+  <a class="btn btn-sm btn-info" href="/artist">Back to Artists</a>
+  <table class="table table-lg table-zebra">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Artist(s)</th>
+        <th>Length</th>
+        <th>Release Date</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (let song of songs) { %>
+      <tr class="hover">
+        <td><%= song.title %></td>
+        <td><%= song.artists.map(x => x.name).join(', ') %></td>
+        <td>
+          <%= Math.trunc(song.length / 60) %>:<%= (song.length %
+          60).toString().padStart(2, '0') %>
+        </td>
+        <td>
+          <%= (new Date(song.release_date)).toLocaleString([], { year:'numeric',
+          month:'numeric', day:'numeric' }) %>
+        </td>
+        <td>
+          <a
+            class="fa-solid fa-pen-to-square text-lg"
+            href="/song/edit/<%= artist._id %>/<%= song._id %>"
+          >
+          </a>
+        </td>
+        <td>
+          <a
+            class="fa-trash fa-solid text-lg cursor-pointer"
+            href="/song/delete/<%= artist._id %>/<%= song._id %>"
+          >
+          </a>
+        </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<dialog id="delete_modal" class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Delete Song</h3>
+    <p class="py-4">Are you sure that you want to delete?</p>
+    <div class="modal-action">
+      <form
+        class="flex gap-2"
+        action="/song/delete/<%= artist._id %>/1"
+        method="get"
+      >
+        <button
+          type="submit"
+          class="btn btn-error"
+          onclick="delete_modal.close();"
+        >
+          Delete
+        </button>
+        <button
+          class="btn"
+          onclick="event.preventDefault(); delete_modal.close()"
+        >
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+</dialog>
+<%- include('../footer') %>
