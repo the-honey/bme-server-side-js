@@ -11,3 +11,6 @@ POST /song/new/:artist_id              - új zene mw
 GET  /song/edit/:artist_id/:song_id    - zene szerkesztése
 POST /song/edit/:artist_id/:song_id    - zene szerkesztése mw
 GET  /song/delete/:artist_id/:song_id  - zene törlése
+GET  /song/delete/:artist_id/:song_id  - zene törlése
+
+GET  /artist/search?q=:name            - előadó keresése név alapján
