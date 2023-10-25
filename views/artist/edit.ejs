@@ -23,6 +23,7 @@
               type="text"
               name="name"
               class="input input-bordered"
+              required
               value="<%= typeof artist === 'undefined' ? '' : artist.name  %>"
             />
           </div>
@@ -32,6 +33,7 @@
               type="text"
               name="nationality"
               class="input input-bordered"
+              required
               value="<%= typeof artist === 'undefined' ? '' : artist.nationality  %>"
             />
           </div>
@@ -41,6 +43,7 @@
               type="number"
               name="monthly_listeners"
               class="input input-bordered"
+              required
               value="<%= typeof artist === 'undefined' ? '' : artist.monthly_listeners  %>"
             />
           </div>

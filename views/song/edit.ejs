@@ -123,6 +123,7 @@
               type="text"
               class="input input-bordered"
               name="title"
+              required
               value="<%= typeof song === 'undefined' ? '' : song.title %>"
             />
           </div>
@@ -192,6 +193,7 @@
               type="number"
               class="input input-bordered"
               name="length"
+              required
               value="<%= typeof song === 'undefined' ? '' : song.length %>"
             />
           </div>
@@ -201,6 +203,7 @@
               type="date"
               class="input input-bordered"
               name="release_date"
+              required
               value="<%= typeof song === 'undefined' ? '' : song.release_date %>"
             />
           </div>
