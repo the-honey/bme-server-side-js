@@ -29,6 +29,45 @@
     const elem = event.parentNode;
     elem.remove();
   }
+
+  async function searchArtist(elem) {
+    if (elem.value.length < 1) {
+      resetSearchList();
+    } else {
+      await fetch('/artist/search?' + new URLSearchParams({ q: elem.value }))
+        .then((x) => x.json())
+        .then((y) => {
+          console.log(y);
+          // TODO: update dropdown
+          setSearchListItems(y);
+        })
+        .catch((e) => console.error(e));
+    }
+  }
+
+  function resetSearchList() {
+    document.getElementById('search_list').innerHTML =
+      '<li class="disabled w-full"><a>Type to search...</a></li>';
+  }
+
+  function setSearchListItems(elems) {
+    let list_items = [];
+    if (elems.length === 0) {
+      list_items.push(genListItem('', 'Not found', true));
+    } else {
+      for (let elem of elems) {
+        list_items.push(genListItem(elem._id, elem.name));
+      }
+    }
+    const search_list = document.getElementById('search_list');
+    search_list.innerHTML = list_items.join('');
+  }
+
+  function genListItem(id, name, disabled = false) {
+    return `<li class="w-full ${
+      disabled ? 'disabled' : ''
+    }"><a onclick="addBadge('${id}', '${name}')">${name}</a></li>`;
+  }
 </script>
 
 <div>
@@ -97,21 +136,21 @@
               </div>
               <% } %>
             </label>
-            <!-- <input type="text" class="input input-bordered" /> -->
             <div class="dropdown">
-              <label tabindex="0" class="btn m-1">Artists</label>
+              <input
+                id="search_input"
+                type="text"
+                oninput="searchArtist(this)"
+                class="input input-bordered w-full"
+                tabindex="0"
+              />
               <div
-                class="dropdown-content shadow bg-base-200 rounded-md w-52 max-h-96 overflow-auto flex-col"
+                class="dropdown-content shadow bg-base-200 rounded-box w-52 max-h-96 overflow-auto flex-col"
               >
-                <ul tabindex="0" class="menu p-0 [&_li>*]:rounded-none">
-                  <% for (let artist of artists) { %>
-                  <li class="border-b border-b-base-content/10 w-full">
-                    <a
-                      onclick="addBadge(<%= artist._id %>, '<%= artist.name %>')"
-                      ><%= artist.name %></a
-                    >
+                <ul id="search_list" tabindex="0" class="menu">
+                  <li class="disabled w-full">
+                    <a>Type to search...</a>
                   </li>
-                  <% } %>
                 </ul>
               </div>
             </div>

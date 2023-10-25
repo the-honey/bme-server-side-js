@@ -4,6 +4,7 @@ const searchArtist = (repo) => (req, res, next) => {
     repo.artists
       .filter((x) => x.name.toLowerCase().includes(req.query.q ?? ''))
       .sort((a, b) => a.name.localeCompare(b.name))
+      .slice(0, 15)
   );
 };
 
