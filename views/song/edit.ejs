@@ -3,9 +3,9 @@
 
 <script>
   function addBadge(id, name) {
-    if (document.getElementById('badge-' + id)) return;
+    if (document.getElementById('artist-' + id)) return;
 
-    let elem = `<div id="badge-${id}" class="badge badge-lg badge-info gap-2">
+    let elem = `<div id="artist-${id}" class="badge badge-lg mb-1 badge-info gap-2">
       <input
         class="hidden"
         type="text"
@@ -19,7 +19,7 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
       ${name}
-    </div>`;
+    </div> `;
 
     const parent = document.getElementById('artist_badges');
     parent.insertAdjacentHTML('beforeend', elem);
@@ -30,19 +30,37 @@
     elem.remove();
   }
 
-  async function searchArtist(elem) {
-    if (elem.value.length < 1) {
+  const debounce = (func, delay = 200) => {
+    let timeoutId;
+
+    return function () {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func.apply(this, arguments);
+      }, delay);
+    };
+  };
+
+  function onSearchInput(evt) {
+    // set to 1 for testing purposes
+    if (evt.value.length < 1) {
       resetSearchList();
     } else {
-      await fetch('/artist/search?' + new URLSearchParams({ q: elem.value }))
-        .then((x) => x.json())
-        .then((y) => {
-          console.log(y);
-          // TODO: update dropdown
-          setSearchListItems(y);
-        })
-        .catch((e) => console.error(e));
+      debounced(evt);
     }
+  }
+
+  const debounced = debounce(searchArtist, 200);
+
+  async function searchArtist(evt) {
+    let text = evt.value;
+
+    await fetch('/artist/search?' + new URLSearchParams({ q: text }))
+      .then((x) => x.json())
+      .then((y) => {
+        setSearchListItems(y);
+      })
+      .catch((e) => console.error(e));
   }
 
   function resetSearchList() {
@@ -51,16 +69,28 @@
   }
 
   function setSearchListItems(elems) {
-    let list_items = [];
+    const search_input = document.getElementById('search_input');
+    if (search_input.value.length === 0) {
+      resetSearchList();
+      return;
+    }
+
+    const search_list = document.getElementById('search_list');
+    search_list.innerHTML = '';
+
     if (elems.length === 0) {
-      list_items.push(genListItem('', 'Not found', true));
+      search_list.insertAdjacentHTML(
+        'beforeend',
+        genListItem('', 'Not found', true)
+      );
     } else {
       for (let elem of elems) {
-        list_items.push(genListItem(elem._id, elem.name));
+        search_list.insertAdjacentHTML(
+          'beforeend',
+          genListItem(elem._id, elem.name)
+        );
       }
     }
-    const search_list = document.getElementById('search_list');
-    search_list.innerHTML = list_items.join('');
   }
 
   function genListItem(id, name, disabled = false) {
@@ -98,14 +128,14 @@
           </div>
           <div class="form-control">
             <label class="label">
-              <span>Artist(s)</span>
+              <span class="block">Artist(s)</span>
             </label>
-            <label id="artist_badges" class="label flex-wrap gap-1">
+            <div id="artist_badges" class="pb-2 inline-block">
               <% if (typeof song !== 'undefined') { for (let song_artist of
               song.artists) { %>
               <div
-                id="badge-<%= song_artist._id %>"
-                class="badge badge-lg badge-info gap-2"
+                id="artist-<%= song_artist._id %>"
+                class="badge badge-lg mb-1 badge-info gap-2"
               >
                 <input
                   class="hidden"
@@ -120,8 +150,8 @@
               </div>
               <% }} else { %>
               <div
-                id="badge-<%= artist._id %>"
-                class="badge badge-lg badge-info gap-2"
+                id="artist-<%= artist._id %>"
+                class="badge badge-lg mb-1 badge-info gap-2"
               >
                 <input
                   class="hidden"
@@ -135,12 +165,13 @@
                 <%= artist.name %>
               </div>
               <% } %>
-            </label>
+            </div>
             <div class="dropdown">
               <input
                 id="search_input"
                 type="text"
-                oninput="searchArtist(this)"
+                autocomplete="off"
+                oninput="onSearchInput(this)"
                 class="input input-bordered w-full"
                 tabindex="0"
               />
