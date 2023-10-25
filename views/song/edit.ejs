@@ -3,8 +3,6 @@
 
 <script>
   function addBadge(id, name) {
-    if (document.getElementById('artist-' + id)) return;
-
     let elem = `<div id="artist-${id}" class="badge badge-lg mb-1 badge-info gap-2">
       <input
         class="hidden"
@@ -14,7 +12,7 @@
       />
       <button
         type="button"
-        onclick="removeParent(this)"
+        onclick="onRemoveBadgeClick(this)"
         >
         <i class="fa-solid fa-xmark"></i>
       </button>
@@ -25,9 +23,27 @@
     parent.insertAdjacentHTML('beforeend', elem);
   }
 
-  function removeParent(event) {
-    const elem = event.parentNode;
+  function removeBadge(elem) {
     elem.remove();
+  }
+
+  function onSearchItemClick(id, name) {
+    if (document.getElementById(`artist-${id}`)) return;
+
+    resetSearchInput();
+    resetSearchList();
+
+    addBadge(id, name);
+  }
+
+  function resetSearchInput() {
+    const search_input = document.getElementById('search_input');
+    search_input.value = '';
+    search_input.focus();
+  }
+
+  function onRemoveBadgeClick(event) {
+    removeBadge(event.parentNode);
   }
 
   const debounce = (func, delay = 200) => {
@@ -68,6 +84,10 @@
       '<li class="disabled w-full"><a>Type to search...</a></li>';
   }
 
+  function clearSearchList() {
+    document.getElementById('search_list').innerHTML = '';
+  }
+
   function setSearchListItems(elems) {
     const search_input = document.getElementById('search_input');
     if (search_input.value.length === 0) {
@@ -75,28 +95,27 @@
       return;
     }
 
-    const search_list = document.getElementById('search_list');
-    search_list.innerHTML = '';
+    clearSearchList();
 
     if (elems.length === 0) {
-      search_list.insertAdjacentHTML(
-        'beforeend',
-        genListItem('', 'Not found', true)
-      );
+      addSearchItem('', 'Not found', true);
     } else {
       for (let elem of elems) {
-        search_list.insertAdjacentHTML(
-          'beforeend',
-          genListItem(elem._id, elem.name)
-        );
+        addSearchItem(elem._id, elem.name);
       }
     }
   }
 
+  function addSearchItem(id, name, disabled = false) {
+    document
+      .getElementById('search_list')
+      .insertAdjacentHTML('beforeend', genListItem(id, name, disabled));
+  }
+
   function genListItem(id, name, disabled = false) {
-    return `<li class="w-full ${
-      disabled ? 'disabled' : ''
-    }"><a onclick="addBadge('${id}', '${name}')">${name}</a></li>`;
+    return `<li class="w-full ${disabled ? 'disabled' : ''}"><a ${
+      disabled ? '' : `onclick="onSearchItemClick('${id}', '${name}')`
+    }">${name}</a></li>`;
   }
 </script>
 
@@ -112,26 +131,29 @@
 
     <div class="max-w-md mx-auto">
       <form
-        class="flex flex-col gap-6"
+        class="flex flex-col gap-8"
         action="<%= typeof song === 'undefined' ? `/song/new/${artist._id}` : `/song/edit/${artist._id}/${song._id}` %>"
         method="post"
       >
-        <div>
+        <div class="flex flex-col gap-3">
           <div class="form-control">
-            <label class="label">Title</label>
+            <label class="label">
+              <span class="label-text">Title</span>
+            </label>
             <input
               type="text"
               class="input input-bordered"
               name="title"
+              placeholder="Title"
               required
               value="<%= typeof song === 'undefined' ? '' : song.title %>"
             />
           </div>
           <div class="form-control">
             <label class="label">
-              <span class="block">Artist(s)</span>
+              <span class="label-text">Artist(s)</span>
             </label>
-            <div id="artist_badges" class="pb-2 inline-block">
+            <div id="artist_badges" class="pb-2">
               <% if (typeof song !== 'undefined') { for (let song_artist of
               song.artists) { %>
               <div
@@ -144,7 +166,7 @@
                   name="artist_ids"
                   value="<%= song_artist._id %>"
                 />
-                <button type="button" onclick="removeParent(this)">
+                <button type="button" onclick="onRemoveBadgeClick(this)">
                   <i class="fa-solid fa-xmark"></i>
                 </button>
                 <%= song_artist.name %>
@@ -160,7 +182,7 @@
                   name="artist_ids"
                   value="<%= artist._id %>"
                 />
-                <button type="button" onclick="removeParent(this)">
+                <button type="button" onclick="onRemoveBadgeClick(this)">
                   <i class="fa-solid fa-xmark"></i>
                 </button>
                 <%= artist.name %>
@@ -174,6 +196,7 @@
                 autocomplete="off"
                 oninput="onSearchInput(this)"
                 class="input input-bordered w-full"
+                placeholder="Artist(s)"
                 tabindex="0"
               />
               <div
@@ -188,17 +211,45 @@
             </div>
           </div>
           <div class="form-control">
-            <label class="label">Length (in seconds)</label>
+            <label class="label">
+              <span class="label-text">Length (in seconds)</span>
+            </label>
             <input
               type="number"
               class="input input-bordered"
               name="length"
+              placeholder="Length (in seconds)"
               required
               value="<%= typeof song === 'undefined' ? '' : song.length %>"
             />
           </div>
+          <!--
+          <div class="hidden form-control">
+            <label class="label">
+              <span class="label-text">Length</span>
+            </label>
+            <div class="join">
+              <input
+                name="minutes"
+                class="input input-bordered flex-1 join-item"
+                placeholder="Minutes"
+                type="number"
+                required
+              />
+              <input
+                name="seconds"
+                class="input input-bordered flex-1 join-item"
+                placeholder="Seconds"
+                type="number"
+                required
+              />
+            </div>
+          </div>
+          -->
           <div class="form-control">
-            <label class="label">Release Date</label>
+            <label class="label">
+              <span class="label-text">Release Date</span>
+            </label>
             <input
               type="date"
               class="input input-bordered"
@@ -209,7 +260,7 @@
           </div>
         </div>
 
-        <div>
+        <div class="flex justify-center gap-2">
           <button type="submit" class="btn btn-primary">Save</button>
           <a class="btn" href="/artist/songs/<%= artist._id %>"> Cancel </a>
         </div>

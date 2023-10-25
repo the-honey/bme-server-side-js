@@ -4,6 +4,7 @@ const getSong = (repo) => (req, res, next) => {
     let { artists, ...song } = repo.songs.find(
       (x) => x._id === req.params.song_id
     );
+    // TODO: fix order
     song.artists = repo.artists.filter((x) => artists.includes(x._id));
     res.locals.song = song;
   }
