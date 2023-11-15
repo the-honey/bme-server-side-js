@@ -1,19 +1,27 @@
 // update a single artist record in db
-const editArtist = (repo) => (req, res, next) => {
+const editArtist = (repo) => async (req, res, next) => {
   if (
     typeof req.body.name === 'undefined' ||
     typeof req.body.nationality === 'undefined' ||
     typeof req.body.monthly_listeners === 'undefined'
   ) {
-    res.redirect(`/artist/edit/${req.params.artist_id}?error=invalid`);
+    res.status(400);
+    res.redirect(`/artist/edit/${req.params.artist_id}?error=invalid_input`);
   } else {
-    let artist = repo.artists.find((x) => x._id === req.params.artist_id);
+    const { Artist } = repo;
 
-    artist.name = req.body.name;
-    artist.nationality = req.body.nationality;
-    artist.monthly_listeners = parseInt(req.body.monthly_listeners);
-
-    res.redirect('/artist?error=invalid');
+    await Artist.findByIdAndUpdate(req.params.artist_id, {
+      name: req.body.name,
+      nationality: req.body.nationality,
+      monthly_listeners: req.body.monthly_listeners,
+    })
+      .then((artist) => {
+        res.redirect(`/artist`);
+      })
+      .catch((err) => {
+        res.status(500);
+        res.redirect(`/artist/edit/${req.params.artist_id}?error=internal`);
+      });
   }
 
   return next();

@@ -1,27 +1,32 @@
 // add new song to db
-const newSong = (repo) => (req, res, next) => {
+const newSong = (repo) => async (req, res, next) => {
   if (
     typeof req.body.title === 'undefined' ||
     typeof req.body.artist_ids === 'undefined' ||
     typeof req.body.length === 'undefined' ||
     typeof req.body.release_date === 'undefined'
   ) {
-    res.redirect(`/artist/new?error=invalid`);
+    res.status(400);
+    res.redirect(`/artist/new?error=invalid_input`);
   } else {
-    let new_song = {
-      _id: Math.trunc(Math.random() * 100_000).toString(),
+    const { Song } = repo;
+
+    await Song.create({
       title: req.body.title,
-      artists:
+      length: parseInt(req.body.length),
+      release_date: req.body.release_date,
+      _artists:
         req.body.artist_ids instanceof Array
           ? req.body.artist_ids
           : [req.body.artist_ids],
-      length: parseInt(req.body.length),
-      release_date: req.body.release_date,
-    };
-
-    repo.songs.push(new_song);
-
-    res.redirect(`/artist/songs/${req.params.artist_id}`);
+    })
+      .then((song) => {
+        res.redirect(`/artist/songs/${req.params.artist_id}`);
+      })
+      .catch((err) => {
+        res.status(500);
+        res.redirect(`/artist/new?error=internal`);
+      });
   }
 
   return next();

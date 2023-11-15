@@ -1,12 +1,16 @@
 // get a single song and its data
-const getSong = (repo) => (req, res, next) => {
+const getSong = (repo) => async (req, res, next) => {
   if (typeof req.params.song_id !== 'undefined') {
-    let { artists, ...song } = repo.songs.find(
-      (x) => x._id === req.params.song_id
-    );
-    // TODO: fix order
-    song.artists = repo.artists.filter((x) => artists.includes(x._id));
-    res.locals.song = song;
+    const { Song } = repo;
+
+    await Song.findById(req.params.song_id)
+      .populate('_artists')
+      .then((song) => {
+        res.locals.song = song;
+      })
+      .catch((err) => {
+        res.locals.song = null;
+      });
   }
 
   return next();

@@ -42,7 +42,7 @@
       <% for (let song of songs) { %>
       <tr class="hover">
         <td><%= song.title %></td>
-        <td><%= song.artists.map(x => x.name).join(', ') %></td>
+        <td><%= song._artists.map(x => x.name).join(', ') %></td>
         <td>
           <%= Math.trunc(song.length / 60) %>:<%= (song.length %
           60).toString().padStart(2, '0') %>
