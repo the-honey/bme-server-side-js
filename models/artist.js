@@ -5,12 +5,6 @@ const Artist = db.model('Artist', {
   name: String,
   nationality: String,
   monthly_listeners: Number,
-  _songs: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Song',
-    },
-  ],
 });
 
 export default Artist;
