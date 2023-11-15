@@ -5,7 +5,6 @@ const Artist = db.model('Artist', {
   name: String,
   nationality: String,
   monthly_listeners: Number,
-  state: Number,
   _songs: [
     {
       type: Schema.Types.ObjectId,
