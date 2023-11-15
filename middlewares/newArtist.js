@@ -5,7 +5,6 @@ const newArtist = (repo) => async (req, res, next) => {
     typeof req.body.nationality === 'undefined' ||
     typeof req.body.monthly_listeners === 'undefined'
   ) {
-    res.status(400);
     res.redirect(`/artist/new?error=invalid_input`);
   } else {
     const { Artist } = repo;
@@ -19,7 +18,6 @@ const newArtist = (repo) => async (req, res, next) => {
         res.redirect(`/artist`);
       })
       .catch((err) => {
-        res.status(500);
         res.redirect(`/artist/new?error=internal`);
       });
   }

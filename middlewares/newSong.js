@@ -6,7 +6,6 @@ const newSong = (repo) => async (req, res, next) => {
     typeof req.body.length === 'undefined' ||
     typeof req.body.release_date === 'undefined'
   ) {
-    res.status(400);
     res.redirect(`/artist/new?error=invalid_input`);
   } else {
     const { Song } = repo;
@@ -24,7 +23,6 @@ const newSong = (repo) => async (req, res, next) => {
         res.redirect(`/artist/songs/${req.params.artist_id}`);
       })
       .catch((err) => {
-        res.status(500);
         res.redirect(`/artist/new?error=internal`);
       });
   }

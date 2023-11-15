@@ -14,7 +14,6 @@ const deleteArtist = (repo) => async (req, res, next) => {
       res.redirect('/artist');
     })
     .catch((err) => {
-      res.status(500);
       res.redirect('/artist?error=internal');
     });
 

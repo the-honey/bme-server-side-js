@@ -7,7 +7,6 @@ const deleteSong = (repo) => async (req, res, next) => {
       res.redirect(`/artist/songs/${req.params.artist_id}`);
     })
     .catch((err) => {
-      res.status(500);
       res.redirect(`/artist/songs/${req.params.artist_id}?error=internal`);
     });
 
