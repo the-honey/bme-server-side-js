@@ -1,4 +1,3 @@
-// Import necessary libraries
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import sinon from 'sinon';
@@ -11,7 +10,6 @@ describe('editSong middleware', function () {
   let req, res, next, Song;
 
   beforeEach(function () {
-    // Mock request object
     req = {
       body: {
         title: 'Test Title',
@@ -25,15 +23,12 @@ describe('editSong middleware', function () {
       },
     };
 
-    // Mock response object
     res = {
       redirect: sinon.spy(),
     };
 
-    // Mock next function
     next = sinon.spy();
 
-    // Mock Song model
     Song = {
       findByIdAndUpdate: sinon.stub().resolves(),
     };

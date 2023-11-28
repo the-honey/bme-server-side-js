@@ -1,4 +1,3 @@
-// Import necessary libraries
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import sinon from 'sinon';
@@ -11,7 +10,6 @@ describe('newArtist middleware', function () {
   let req, res, next, Artist;
 
   beforeEach(function () {
-    // Mock request object
     req = {
       body: {
         name: 'Test Artist',
@@ -20,15 +18,12 @@ describe('newArtist middleware', function () {
       },
     };
 
-    // Mock response object
     res = {
       redirect: sinon.spy(),
     };
 
-    // Mock next function
     next = sinon.spy();
 
-    // Mock Artist model
     Artist = {
       create: sinon.stub().resolves(),
     };
