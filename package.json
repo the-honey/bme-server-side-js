@@ -10,7 +10,7 @@
     "watch": "node --watch index.js",
     "watch:css": "npx tailwindcss -i ./input.css -o ./assets/tailwind.css --watch",
     "build:css": "npx tailwindcss -i ./input.css -o ./assets/tailwind.css",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive"
   },
   "keywords": [],
   "author": "",
@@ -22,7 +22,11 @@
     "mongoose": "^8.0.0"
   },
   "devDependencies": {
+    "chai": "^4.3.10",
+    "chai-http": "^4.4.0",
     "concurrently": "^8.2.1",
+    "mocha": "^10.2.0",
+    "sinon": "^17.0.1",
     "tailwindcss": "^3.3.3"
   }
 }
